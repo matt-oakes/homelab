@@ -1,0 +1,18 @@
+# Config
+.env
+
+# Caddy
+caddy/Caddyfile
+caddy/config
+caddy/data
+caddy/logs
+
+# Mongo
+mongo/db
+
+# Unifi
+unifi/data
+
+# PiHole
+pihole/data
+pihole/dnsmasq.d

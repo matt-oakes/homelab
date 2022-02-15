@@ -1,0 +1,67 @@
+version: "3.7"
+
+services:
+  #
+  # Caddy HTTP server to provide HTTPS access to the other services
+  # This automatically handles certificate creation and renewal for the domain name
+  #
+  caddy:
+    build: caddy
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/config:/config
+      - ./caddy/data:/data
+      - ./caddy/logs:/var/log/caddy
+
+  #
+  # Setup the Unifi Controller for administering the local network
+  #
+  unifi:
+    image: lscr.io/linuxserver/unifi-controller:6.5.55
+    container_name: unifi
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+    ports:
+      - 3478:3478/udp
+      - 10001:10001/udp
+      - 8080:8080
+      - 8443:8443
+      - 1900:1900/udp
+      - 8843:8843
+      - 8880:8880
+      - 6789:6789
+      - 5514:5514/udp
+    volumes:
+      - ./unifi/data:/config
+  
+  #
+  # Setup PiHole for DNS and blocking
+  #
+  pihole:
+    image: pihole/pihole:2022.02.1
+    container_name: pihole
+    restart: unless-stopped
+    environment:
+      TZ: 'Europe/London'
+      PIHOLE_UID: 1000
+      PIHOLE_GID: 1000
+      WEB_UID: 1000
+      WEB_GID: 1000
+      WEBPASSWORD: '${PIHOLE_WEBPASSWORD:?err}'
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 67:67/udp
+    volumes:
+      - ./pihole/data:/etc/pihole
+      - ./pihole/dnsmasq.d:/etc/dnsmasq.d
+    cap_add:
+      - NET_ADMIN
