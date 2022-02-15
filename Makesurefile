@@ -11,9 +11,9 @@
     cp "$template" "$destination"
 
     while read line; do
-        setting="$( echo "$line" | cut -d '=' -f 1 )"
-        value="$( echo "$line" | cut -d '=' -f 2- )"
-        sed -i -e "s;%${setting}%;${value};g" "$destination"
+      setting="$( echo "$line" | cut -d '=' -f 1 )"
+      value="$( echo "$line" | cut -d '=' -f 2- )"
+      sed -i -e "s;%${setting}%;${value};g" "$destination"
     done < "$config"
   }
 
@@ -68,6 +68,21 @@
   docker-compose up -d
 
 ###
+# Make sure all services are configures after they are running
+###
+
+@goal configured
+@depends_on dns_configured
+
+@goal dns_configured
+@doc Ensures the custom DNS is configured in Pihole to point to the right internal IP for the services
+  source ./.env
+  cat << EOF > ./pihole/data/custom.list
+$HOST_IP pihole.$DOMAIN
+$HOST_IP unifi.$DOMAIN
+EOF
+
+###
 # The default goal which ensures that everything is set up and running correctly
 ###
 
@@ -75,3 +90,4 @@
 @depends_on dependencies_installed
 @depends_on config_configured
 @depends_on running
+@depends_on configured
