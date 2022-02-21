@@ -1,9 +1,19 @@
 version: "3.7"
 
+# Define internal docker networks for container connectivity
+networks:
+  internal:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
+
+# Define each service
 services:
   #
-  # Caddy HTTP server to provide HTTPS access to the other services
-  # This automatically handles certificate creation and renewal for the domain name
+  # Caddy HTTP server
+  # Provide HTTPS access to the other services while automatically handling certificate creation and renewal for the domain name
   #
   caddy:
     build: caddy
@@ -17,18 +27,21 @@ services:
       - ./caddy/config:/config
       - ./caddy/data:/data
       - ./caddy/logs:/var/log/caddy
+    networks:
+      - internal
 
   #
-  # Setup the Unifi Controller for administering the local network
+  # Setup the Unifi Controller
+  # Administering the local network, routers, and access points
   #
   unifi:
     build: unifi
     container_name: unifi
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=UTC
+      PUID: 1000
+      PGID: 1000
+      TZ: UTC
     ports:
       - 3478:3478/udp
       - 10001:10001/udp
@@ -41,9 +54,14 @@ services:
       - 5514:5514/udp
     volumes:
       - ./unifi/data:/config
+    networks:
+      - internal
+    dns:
+      - 172.16.238.100
   
   #
-  # Setup PiHole for DNS and blocking
+  # Setup PiHole
+  # DNS and ad blocking
   #
   pihole:
     build: pihole
@@ -65,3 +83,36 @@ services:
       - ./pihole/dnsmasq.d:/etc/dnsmasq.d
     cap_add:
       - NET_ADMIN
+    networks:
+      internal:
+        ipv4_address: 172.16.238.100
+
+  #
+  # Wireguard Server
+  # External access to the internal network
+  #
+  wireguard_server:
+    build: wireguard_server
+    container_name: wireguard_server
+    restart: unless-stopped
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/London
+      SERVERURL: '${WIREGUARD_SERVER_DOMAIN:?err}'
+      PEERS: '${WIREGUARD_SERVER_PEERS:?err}'
+      ALLOWEDIPS: 0.0.0.0/0
+    ports:
+      - 51820:51820/udp
+    volumes:
+      - ./wireguard_server/config:/config
+      - /lib/modules:/lib/modules
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    networks:
+      - internal
+    dns:
+      - 172.16.238.100

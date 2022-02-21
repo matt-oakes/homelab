@@ -16,3 +16,6 @@ unifi/data
 # PiHole
 pihole/data
 pihole/dnsmasq.d
+
+# Wireguard Server
+wireguard_server/config

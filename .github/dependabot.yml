@@ -12,8 +12,14 @@ updates:
     schedule:
       interval: "daily"
 
-  # unifi Docker
+  # Unifi Docker
   - package-ecosystem: "docker"
     directory: "/unifi"
+    schedule:
+      interval: "daily"
+
+  # Wireguard Server Docker
+  - package-ecosystem: "docker"
+    directory: "/wireguard_server"
     schedule:
       interval: "daily"
