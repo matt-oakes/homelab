@@ -1,13 +1,19 @@
 version: 2
 updates:
-  # Main Docker Compose
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "daily"
-  
   # Caddy Docker
   - package-ecosystem: "docker"
     directory: "/caddy"
+    schedule:
+      interval: "daily"
+
+  # Pihole Docker
+  - package-ecosystem: "docker"
+    directory: "/pihole"
+    schedule:
+      interval: "daily"
+
+  # unifi Docker
+  - package-ecosystem: "docker"
+    directory: "/unifi"
     schedule:
       interval: "daily"

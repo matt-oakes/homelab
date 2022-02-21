@@ -22,7 +22,7 @@ services:
   # Setup the Unifi Controller for administering the local network
   #
   unifi:
-    image: lscr.io/linuxserver/unifi-controller:6.5.55
+    build: unifi
     container_name: unifi
     restart: unless-stopped
     environment:
@@ -46,7 +46,7 @@ services:
   # Setup PiHole for DNS and blocking
   #
   pihole:
-    image: pihole/pihole:2022.02.1
+    build: pihole
     container_name: pihole
     restart: unless-stopped
     environment:
