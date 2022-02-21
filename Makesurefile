@@ -49,11 +49,22 @@
 @goal config_configured
 @doc Ensures everything is configured
 @depends_on caddy_configured
+@depends_on host_dns_configured
 
 @goal caddy_configured
 @doc Generates the caddy config from the template, substituting in any secrets from .env
 @use_lib templating
     from-template caddy/Caddyfile.template caddy/Caddyfile
+
+@goal host_dns_configured
+@doc Ensures that the host Raspberry Pi has DNS servers other than the Unfi provided Pi Hole to avoid circular dependencies which could stop networking happening
+@reached_if grep "# START HOMELAB GENERATED" /etc/resolvconf.conf > /dev/null 2>&1
+  cat << EOF | sudo tee -a /etc/resolvconf.conf
+# START HOMELAB GENERATED
+name_servers=1.1.1.1
+# END HOMELAB GENERATED
+EOF
+  sudo resolvconf -u
 
 ###
 # Ensure all services are running
@@ -68,7 +79,7 @@
   docker-compose up -d
 
 ###
-# Make sure all services are configures after they are running
+# Make sure all services are configured after they are running
 ###
 
 @goal configured
