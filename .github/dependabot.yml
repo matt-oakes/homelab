@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # Main Docker Compose
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+  
+  # Caddy Docker
+  - package-ecosystem: "docker"
+    directory: "/caddy"
+    schedule:
+      interval: "daily"
