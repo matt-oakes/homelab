@@ -75,7 +75,6 @@ EOF
 
 @goal docker_compose_running
 @doc Ensures the docker compose services are running
-@reached_if docker container ls | grep caddy > /dev/null 2>&1
   docker-compose up -d
 
 ###
