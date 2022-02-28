@@ -1,1 +1,1 @@
-FROM lscr.io/linuxserver/unifi-controller:6.5.55
+FROM lscr.io/linuxserver/unifi-controller:7.0.23
