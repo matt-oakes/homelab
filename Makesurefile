@@ -90,6 +90,7 @@ EOF
   cat << EOF > ./pihole/data/custom.list
 $HOST_IP pihole.$DOMAIN
 $HOST_IP unifi.$DOMAIN
+$HOST_IP nas.$DOMAIN
 EOF
 
 ###

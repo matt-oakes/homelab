@@ -1,6 +1,5 @@
 *.%DOMAIN% {
-	tls %LETS_ENCRYPT_EMAIL%
-	tls {
+	tls %LETS_ENCRYPT_EMAIL% {
 		dns cloudflare %CLOUDFLARE_API%
 	}
 
@@ -20,6 +19,13 @@
 			to pihole:80
 		}
 		redir / /admin/
+	}
+
+	@nas host nas.%DOMAIN%
+	handle @nas {
+		reverse_proxy {
+			to 192.168.1.183:5000
+		}
 	}
 
 	log {
