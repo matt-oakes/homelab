@@ -42,3 +42,13 @@ After it is set up on a new network you need to go into the settings and overrid
 Used to run a local DNS cache which also handles the routing to the internal only domains for all the services, via Caddy.
 
 We also configure it to block domains on an adlist for just some clients to avoid disruption.
+
+### Wireguard VPN Server
+
+Used to remotely connect to the internal home network from anywhere else.
+
+The peers are configured via the comma seperated `WIREGUARD_SERVER_PEERS` environment variable and the connection details and QR code can be viewed by running:
+
+```
+docker exec -it wireguard_server /app/show-peer peer_name_here
+```
