@@ -1,5 +1,15 @@
 version: "3.7"
 
+x-service-defaults:
+  &service-defaults
+  depends_on:
+    - pihole
+  restart: unless-stopped
+  networks:
+    - internal
+  dns:
+    - 172.16.238.100
+
 # Define internal docker networks for container connectivity
 networks:
   internal:
@@ -16,9 +26,9 @@ services:
   # Provide HTTPS access to the other services while automatically handling certificate creation and renewal for the domain name
   #
   caddy:
+    <<: *service-defaults
     build: caddy
     container_name: caddy
-    restart: unless-stopped
     ports:
       - 80:80
       - 443:443
@@ -27,41 +37,10 @@ services:
       - ./caddy/config:/config
       - ./caddy/data:/data
       - ./caddy/logs:/var/log/caddy
-    networks:
-      - internal
 
   #
-  # Setup the Unifi Controller
-  # Administering the local network, routers, and access points
-  #
-  unifi:
-    build: unifi
-    container_name: unifi
-    restart: unless-stopped
-    environment:
-      PUID: 1000
-      PGID: 1000
-      TZ: UTC
-    ports:
-      - 3478:3478/udp
-      - 10001:10001/udp
-      - 8080:8080
-      - 8443:8443
-      - 1900:1900/udp
-      - 8843:8843
-      - 8880:8880
-      - 6789:6789
-      - 5514:5514/udp
-    volumes:
-      - ./unifi/data:/config
-    networks:
-      - internal
-    dns:
-      - 172.16.238.100
-  
-  #
-  # Setup PiHole
-  # DNS and ad blocking
+  # Setup PiHole for DNS and ad blocking
+  # Because this provided DNS for the entire home network, all services depend on this
   #
   pihole:
     build: pihole
@@ -88,13 +67,38 @@ services:
         ipv4_address: 172.16.238.100
 
   #
+  # Setup the Unifi Controller
+  # Administering the local network, routers, and access points
+  #
+  unifi:
+    <<: *service-defaults
+    build: unifi
+    container_name: unifi
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: UTC
+    ports:
+      - 3478:3478/udp
+      - 10001:10001/udp
+      - 8080:8080
+      - 8443:8443
+      - 1900:1900/udp
+      - 8843:8843
+      - 8880:8880
+      - 6789:6789
+      - 5514:5514/udp
+    volumes:
+      - ./unifi/data:/config
+
+  #
   # Wireguard Server
   # External access to the internal network
   #
   wireguard_server:
+    <<: *service-defaults
     build: wireguard_server
     container_name: wireguard_server
-    restart: unless-stopped
     environment:
       PUID: 1000
       PGID: 1000
@@ -114,7 +118,4 @@ services:
       - SYS_MODULE
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
-    networks:
-      - internal
-    dns:
-      - 172.16.238.100
+    <<: *service-defaults
