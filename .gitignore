@@ -7,15 +7,18 @@ caddy/config
 caddy/data
 caddy/logs
 
+# Grafana
+grafana/config.monitoring
+
 # Mongo
 mongo/db
-
-# Unifi
-unifi/data
 
 # PiHole
 pihole/data
 pihole/dnsmasq.d
+
+# Unifi
+unifi/data
 
 # Wireguard Server
 wireguard_server/config

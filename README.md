@@ -52,3 +52,9 @@ The peers are configured via the comma seperated `WIREGUARD_SERVER_PEERS` enviro
 ```
 docker exec -it wireguard_server /app/show-peer peer_name_here
 ```
+
+### Prometheus & Grafana
+
+Used to collect and display dashboards for data collected on the network.
+
+There are also containers that are used to collect stats about the Pi itself (such as load information) and a speed test container which allows displaying historic details about regular speed tests which are run to monitr the internet connection.

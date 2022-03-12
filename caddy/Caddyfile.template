@@ -3,13 +3,17 @@
 		dns cloudflare %CLOUDFLARE_API%
 	}
 
-	@unifi host unifi.%DOMAIN%
-	handle @unifi {
+	@grafana host dashboard.%DOMAIN%
+	handle @grafana {
 		reverse_proxy {
-			to unifi:8443
-			transport http {
-				tls_insecure_skip_verify
-			}
+			to grafana:3000
+		}
+	}
+
+	@nas host nas.%DOMAIN%
+	handle @nas {
+		reverse_proxy {
+			to 192.168.1.183:5000
 		}
 	}
 
@@ -21,10 +25,13 @@
 		redir / /admin/
 	}
 
-	@nas host nas.%DOMAIN%
-	handle @nas {
+	@unifi host unifi.%DOMAIN%
+	handle @unifi {
 		reverse_proxy {
-			to 192.168.1.183:5000
+			to unifi:8443
+			transport http {
+				tls_insecure_skip_verify
+			}
 		}
 	}
 

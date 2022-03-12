@@ -19,6 +19,13 @@ networks:
       config:
         - subnet: 172.16.238.0/24
 
+# Define any volumes to store data
+volumes:
+  caddy-config:
+  caddy-data:
+  grafana-data:
+  prometheus-data:
+
 # Define each service
 services:
   #
@@ -33,9 +40,8 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
-      - ./caddy/config:/config
-      - ./caddy/data:/data
+      - caddy-config:/config
+      - caddy-data:/data
       - ./caddy/logs:/var/log/caddy
 
   #
@@ -119,3 +125,71 @@ services:
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     <<: *service-defaults
+
+  #
+  # Prometheus for data collection
+  #
+  prometheus:
+    <<: *service-defaults
+    build: prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus/config:/etc/prometheus
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=90d'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - 9090:9090
+  
+  #
+  # Grafana for displaying collected data
+  #
+  grafana:
+    <<: *service-defaults
+    build: grafana
+    container_name: grafana
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    ports:
+      - 9999:3000
+    env_file:
+      - ./grafana/config.monitoring
+
+  #
+  # Container to run speed tests and send the results to Prometheus
+  #
+  speedtest:
+    <<: *service-defaults
+    build: speedtest
+    container_name: speedtest
+    expose:
+      - 9798
+    ports:
+      - 9798:9798
+
+  #
+  # Container to monitor the Pi itself and export details to Prometheus
+  #
+  pi_monitor:
+    <<: *service-defaults
+    build: pi_monitor
+    container_name: pi_monitor
+    privileged: true
+    ports:
+      - 9100:9100
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - --collector.filesystem.ignored-mount-points
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro

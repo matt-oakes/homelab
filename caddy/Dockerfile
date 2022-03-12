@@ -6,3 +6,4 @@ RUN xcaddy build  --with \
 FROM caddy:2.4.6
 
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+COPY Caddyfile /etc/caddy/Caddyfile

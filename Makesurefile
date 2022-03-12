@@ -46,17 +46,23 @@
 # Make sure config files needed to get everything running are generated
 ###
 
-@goal config_configured
-@doc Ensures everything is configured
-@depends_on caddy_configured
-@depends_on host_dns_configured
+@goal config_generated
+@doc Ensures everything is generated
+@depends_on caddy_generated
+@depends_on grafana_generated
+@depends_on host_dns_generated
 
-@goal caddy_configured
+@goal caddy_generated
 @doc Generates the caddy config from the template, substituting in any secrets from .env
 @use_lib templating
     from-template caddy/Caddyfile.template caddy/Caddyfile
 
-@goal host_dns_configured
+@goal grafana_generated
+@doc Generates the grafana config from the template, substituting in any secrets from .env
+@use_lib templating
+    from-template grafana/config.monitoring.template grafana/config.monitoring
+
+@goal host_dns_generated
 @doc Ensures that the host Raspberry Pi has DNS servers other than the Unfi provided Pi Hole to avoid circular dependencies which could stop networking happening
 @reached_if grep "# START HOMELAB GENERATED" /etc/resolvconf.conf > /dev/null 2>&1
   cat << EOF | sudo tee -a /etc/resolvconf.conf
@@ -88,10 +94,12 @@ EOF
 @doc Ensures the custom DNS is configured in Pihole to point to the right internal IP for the services
   source ./.env
   cat << EOF > ./pihole/data/custom.list
+$HOST_IP dashboard.$DOMAIN
 $HOST_IP pihole.$DOMAIN
 $HOST_IP unifi.$DOMAIN
 $HOST_IP nas.$DOMAIN
 EOF
+  docker-compose exec pihole pihole updateGravity > /dev/null 2>&1
 
 ###
 # The default goal which ensures that everything is set up and running correctly
@@ -99,6 +107,6 @@ EOF
 
 @goal default
 @depends_on dependencies_installed
-@depends_on config_configured
+@depends_on config_generated
 @depends_on running
 @depends_on configured
