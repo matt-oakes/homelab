@@ -8,7 +8,7 @@ updates:
 
   # Pihole Docker
   - package-ecosystem: "docker"
-    directory: "/pihole"
+    directory: "/"
     schedule:
       interval: "daily"
 
