@@ -49,7 +49,7 @@ services:
   # Because this provided DNS for the entire home network, all services depend on this
   #
   pihole:
-    image: pihole/pihole:2022.02.1
+    image: pihole/pihole:2022.04.2
     container_name: pihole
     restart: unless-stopped
     environment:
