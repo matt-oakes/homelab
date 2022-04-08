@@ -78,7 +78,7 @@ services:
   #
   unifi:
     <<: *service-defaults
-    build: unifi
+    image: lscr.io/linuxserver/unifi-controller:7.0.25
     container_name: unifi
     environment:
       PUID: 1000
@@ -103,7 +103,7 @@ services:
   #
   wireguard_server:
     <<: *service-defaults
-    build: wireguard_server
+    image: lscr.io/linuxserver/wireguard:1.0.20210914
     container_name: wireguard_server
     environment:
       PUID: 1000
@@ -131,7 +131,7 @@ services:
   #
   prometheus:
     <<: *service-defaults
-    build: prometheus
+    image: prom/prometheus:v2.33.5
     container_name: prometheus
     volumes:
       - ./prometheus/config:/etc/prometheus
@@ -150,7 +150,7 @@ services:
   #
   grafana:
     <<: *service-defaults
-    build: grafana
+    image: grafana/grafana:8.4.3
     container_name: grafana
     depends_on:
       - prometheus
@@ -167,7 +167,7 @@ services:
   #
   speedtest:
     <<: *service-defaults
-    build: speedtest
+    image: ghcr.io/miguelndecarvalho/speedtest-exporter:v3.4.1
     container_name: speedtest
     expose:
       - 9798
@@ -179,7 +179,7 @@ services:
   #
   pi_monitor:
     <<: *service-defaults
-    build: pi_monitor
+    image: prom/node-exporter:v1.3.1
     container_name: pi_monitor
     privileged: true
     ports:

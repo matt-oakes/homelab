@@ -1,1 +1,0 @@
-FROM lscr.io/linuxserver/wireguard:1.0.20210914
