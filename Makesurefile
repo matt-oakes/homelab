@@ -84,6 +84,17 @@ EOF
   docker-compose up -d
 
 ###
+# Ensure all services are up-to-date
+###
+
+@goal updated
+@depends_on docker_compose_updated
+
+@goal docker_compose_updated
+@doc Ensures the docker compose services are updated and running
+  docker-compose up -d --build caddy
+
+###
 # Make sure all services are configured after they are running
 ###
 
