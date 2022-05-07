@@ -10,10 +10,17 @@
 		}
 	}
 
+	@modem host modem.%DOMAIN%
+	handle @modem {
+		reverse_proxy {
+			to %MODEM_IP%
+		}
+	}
+
 	@nas host nas.%DOMAIN%
 	handle @nas {
 		reverse_proxy {
-			to 192.168.1.183:5000
+			to %NAS_IP%:5000
 		}
 	}
 
@@ -23,6 +30,13 @@
 			to pihole:80
 		}
 		redir / /admin/
+	}
+
+	@router host router.%DOMAIN%
+	handle @router {
+		reverse_proxy {
+			to %ROUTER_IP%:80
+		}
 	}
 
 	@unifi host unifi.%DOMAIN%

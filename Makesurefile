@@ -81,17 +81,6 @@ EOF
 
 @goal docker_compose_running
 @doc Ensures the docker compose services are running
-  docker-compose up -d
-
-###
-# Ensure all services are up-to-date
-###
-
-@goal updated
-@depends_on docker_compose_updated
-
-@goal docker_compose_updated
-@doc Ensures the docker compose services are updated and running
   docker-compose up -d --build caddy
 
 ###
@@ -106,9 +95,11 @@ EOF
   source ./.env
   cat << EOF > ./pihole/data/custom.list
 $HOST_IP dashboard.$DOMAIN
-$HOST_IP pihole.$DOMAIN
-$HOST_IP unifi.$DOMAIN
+$HOST_IP modem.$DOMAIN
 $HOST_IP nas.$DOMAIN
+$HOST_IP pihole.$DOMAIN
+$HOST_IP router.$DOMAIN
+$HOST_IP unifi.$DOMAIN
 EOF
   docker-compose exec pihole pihole updateGravity > /dev/null 2>&1
 
