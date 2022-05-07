@@ -81,7 +81,8 @@ EOF
 
 @goal docker_compose_running
 @doc Ensures the docker compose services are running
-  docker-compose up -d --build caddy
+  docker-compose build caddy
+  docker-compose up -d
 
 ###
 # Make sure all services are configured after they are running

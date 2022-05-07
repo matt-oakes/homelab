@@ -43,6 +43,18 @@ services:
       - caddy-config:/config
       - caddy-data:/data
       - ./caddy/logs:/var/log/caddy
+  
+  #
+  # A small script which will keep the 
+  #
+  cloudflare_ddns:
+    image: oznu/cloudflare-ddns:latest
+    restart: always
+    environment:
+      API_KEY: '${CLOUDFLARE_API:?err}'
+      ZONE: '${DOMAIN:?err}'
+      SUBDOMAIN: '${WIREGUARD_SERVER_SUBDOMAIN:?err}'
+      PROXIED: 'false'
 
   #
   # Setup PiHole for DNS and ad blocking
@@ -109,10 +121,10 @@ services:
       PUID: 1000
       PGID: 1000
       TZ: Europe/London
-      SERVERURL: '${WIREGUARD_SERVER_DOMAIN:?err}'
+      SERVERURL: '${WIREGUARD_SERVER_SUBDOMAIN:?err}.${DOMAIN:?err}'
+      SERVERPORT: 51820
       PEERS: '${WIREGUARD_SERVER_PEERS:?err}'
-      INTERNAL_SUBNET: 10.13.13.0
-      ALLOWEDIPS: 10.13.13.1,192.168.1.0/24
+      ALLOWEDIPS: 0.0.0.0/0,::0/0
       PEERDNS: auto
     ports:
       - 51820:51820/udp
@@ -124,7 +136,6 @@ services:
       - SYS_MODULE
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
-    <<: *service-defaults
 
   #
   # Prometheus for data collection
