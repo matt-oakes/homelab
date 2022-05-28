@@ -2,22 +2,7 @@ version: "3.7"
 
 x-service-defaults:
   &service-defaults
-  depends_on:
-    - pihole
   restart: unless-stopped
-  networks:
-    - internal
-  dns:
-    - 172.16.238.100
-
-# Define internal docker networks for container connectivity
-networks:
-  internal:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.16.238.0/24
 
 # Define any volumes to store data
 volumes:
@@ -28,6 +13,21 @@ volumes:
 
 # Define each service
 services:
+  #
+  # Asus DNS
+  # Runs a cron job which ensures that the Asus router has the correct local DNS records to get the local services to work
+  #
+  asus_dns:
+    <<: *service-defaults
+    build: asus_dns
+    container_name: asus_dns
+    environment:
+      ROUTER_SSH_USER: '${ROUTER_SSH_USER:?err}'
+      ROUTER_IP: '${ROUTER_IP:?err}'
+      ROUTER_SSH_PORT: '${ROUTER_SSH_PORT:?err}'
+      HOST_IP: '${HOST_IP:?err}'
+      DOMAIN: '${DOMAIN:?err}'
+
   #
   # Caddy HTTP server
   # Provide HTTPS access to the other services while automatically handling certificate creation and renewal for the domain name
@@ -80,34 +80,6 @@ services:
       - ./pihole/dnsmasq.d:/etc/dnsmasq.d
     cap_add:
       - NET_ADMIN
-    networks:
-      internal:
-        ipv4_address: 172.16.238.100
-
-  #
-  # Setup the Unifi Controller
-  # Administering the local network, routers, and access points
-  #
-  unifi:
-    <<: *service-defaults
-    image: lscr.io/linuxserver/unifi-controller:7.0.25
-    container_name: unifi
-    environment:
-      PUID: 1000
-      PGID: 1000
-      TZ: UTC
-    ports:
-      - 3478:3478/udp
-      - 10001:10001/udp
-      - 8080:8080
-      - 8443:8443
-      - 1900:1900/udp
-      - 8843:8843
-      - 8880:8880
-      - 6789:6789
-      - 5514:5514/udp
-    volumes:
-      - ./unifi/data:/config
 
   #
   # Wireguard Server

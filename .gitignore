@@ -7,6 +7,9 @@ caddy/config
 caddy/data
 caddy/logs
 
+# DNS
+asus_dns/ssh
+
 # Grafana
 grafana/config.monitoring
 

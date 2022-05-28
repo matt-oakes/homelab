@@ -9,7 +9,7 @@ The configuration for the homelab services that are designed to run on a Raspber
 
 ## Configuring the services
 
-Make a copy of `.env.example` called `.env` and fill in the secrets with the correct values.
+Make a copy of `.env.example` called `.env` and fill in the secrets with the correct values. Generate an SSH key at `asus_dns/ssh/identity` and ensure that it is an allowed key for the Asus router.
 
 ## Running the services
 
@@ -31,11 +31,13 @@ docker-compose down
 
 Caddy is configured as a HTTP(S) server that sits in from of all of the other services. It handles certificate creation and renewal using the Cloudflare DNS API and reverse proxys requests to the other services.
 
-### Unifi Controller
+### Asus DNS
 
-Used to manage the networking hardware on the local network.
+A custom script which will SSH into the Asus router and ensure the correct DNS settings are set to make the local domain work correctly.
 
-After it is set up on a new network you need to go into the settings and override the "Inform host" to be the local IP address of the Raspberry Pi that these services are running on. This is needed to allow adoption of network hardware to work correctly.
+### Cloudflare DDNS
+
+Ensures the correct IP address is set on the domain DNS records to ensure that the VPN works correctly.
 
 ### Pihole
 
