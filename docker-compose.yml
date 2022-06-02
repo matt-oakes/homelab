@@ -57,31 +57,6 @@ services:
       PROXIED: 'false'
 
   #
-  # Setup PiHole for DNS and ad blocking
-  # Because this provided DNS for the entire home network, all services depend on this
-  #
-  pihole:
-    image: pihole/pihole:2022.04.3
-    container_name: pihole
-    restart: unless-stopped
-    environment:
-      TZ: 'Europe/London'
-      PIHOLE_UID: 1000
-      PIHOLE_GID: 1000
-      WEB_UID: 1000
-      WEB_GID: 1000
-      WEBPASSWORD: '${PIHOLE_WEBPASSWORD:?err}'
-    ports:
-      - 53:53/tcp
-      - 53:53/udp
-      - 67:67/udp
-    volumes:
-      - ./pihole/data:/etc/pihole
-      - ./pihole/dnsmasq.d:/etc/dnsmasq.d
-    cap_add:
-      - NET_ADMIN
-
-  #
   # Wireguard Server
   # External access to the internal network
   #

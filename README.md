@@ -39,12 +39,6 @@ A custom script which will SSH into the Asus router and ensure the correct DNS s
 
 Ensures the correct IP address is set on the domain DNS records to ensure that the VPN works correctly.
 
-### Pihole
-
-Used to run a local DNS cache which also handles the routing to the internal only domains for all the services, via Caddy.
-
-We also configure it to block domains on an adlist for just some clients to avoid disruption.
-
 ### Wireguard VPN Server
 
 Used to remotely connect to the internal home network from anywhere else.
