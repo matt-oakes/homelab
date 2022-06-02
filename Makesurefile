@@ -72,7 +72,7 @@
 @doc Ensures the docker compose services are running
   docker-compose build asus_dns
   docker-compose build caddy
-  docker-compose up -d
+  docker-compose up -d --remove-orphans
 
 ###
 # The default goal which ensures that everything is set up and running correctly
