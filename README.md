@@ -39,6 +39,10 @@ A custom script which will SSH into the Asus router and ensure the correct DNS s
 
 Ensures the correct IP address is set on the domain DNS records to ensure that the VPN works correctly.
 
+### Jellyfin
+
+A media server for streaming media to Google TV.
+
 ### Wireguard VPN Server
 
 Used to remotely connect to the internal home network from anywhere else.

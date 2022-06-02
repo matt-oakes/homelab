@@ -1,27 +1,23 @@
 # Config
 .env
 
+# Asus DNS
+asus_dns/ssh
+
 # Caddy
 caddy/Caddyfile
 caddy/config
 caddy/data
 caddy/logs
 
-# DNS
-asus_dns/ssh
-
 # Grafana
 grafana/config.monitoring
 
-# Mongo
-mongo/db
+# Jellyfin
+jellyfin/config
 
-# PiHole
-pihole/data
-pihole/dnsmasq.d
-
-# Unifi
-unifi/data
+# Media
+media
 
 # Wireguard Server
 wireguard_server/config

@@ -10,6 +10,13 @@
 		}
 	}
 
+	@jellyfin host jellyfin.%DOMAIN%
+	handle @jellyfin {
+		reverse_proxy {
+			to jellyfin:8096
+		}
+	}
+
 	@modem host modem.%DOMAIN%
 	handle @modem {
 		reverse_proxy {
@@ -24,28 +31,10 @@
 		}
 	}
 
-	@pihole host pihole.%DOMAIN%
-	handle @pihole {
-		reverse_proxy {
-			to pihole:80
-		}
-		redir / /admin/
-	}
-
 	@router host router.%DOMAIN%
 	handle @router {
 		reverse_proxy {
 			to %ROUTER_IP%:80
-		}
-	}
-
-	@unifi host unifi.%DOMAIN%
-	handle @unifi {
-		reverse_proxy {
-			to unifi:8443
-			transport http {
-				tls_insecure_skip_verify
-			}
 		}
 	}
 

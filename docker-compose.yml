@@ -83,6 +83,32 @@ services:
       - SYS_MODULE
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
+  
+  #
+  # Jellyfin media server
+  #
+  jellyfin:
+    <<: *service-defaults
+    image: lscr.io/linuxserver/jellyfin:10.7.7
+    container_name: jellyfin
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/London
+      JELLYFIN_PublishedServerUrl: 'jellyfin.${DOMAIN:?err}'
+    devices:
+      - "/dev/video10:/dev/video10"
+      - "/dev/video11:/dev/video11"
+      - "/dev/video12:/dev/video12"
+    volumes:
+      - ./jellyfin/config:/config
+      - ./media/tvshows:/data/tvshows
+      - ./media/movies:/data/movies
+    ports:
+      - 8096:8096
+      - 8920:8920
+      - 7359:7359/udp
+      - 1900:1900/udp
 
   #
   # Prometheus for data collection
