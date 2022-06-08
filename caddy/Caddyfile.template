@@ -38,6 +38,13 @@
 		}
 	}
 
+	@homeassistant host homeassistant.%DOMAIN%
+	handle @homeassistant {
+		reverse_proxy {
+			to host.docker.internal:8123
+		}
+	}
+
 	@router host router.%DOMAIN%
 	handle @router {
 		reverse_proxy {

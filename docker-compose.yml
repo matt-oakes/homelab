@@ -43,6 +43,8 @@ services:
       - caddy-config:/config
       - caddy-data:/data
       - ./caddy/logs:/var/log/caddy
+    extra_hosts:
+      - host.docker.internal:host-gateway
   
   #
   # A small script which will keep the 
@@ -135,6 +137,22 @@ services:
       - 8920:8920
       - 7359:7359/udp
       - 1900:1900/udp
+
+  #
+  # Home Assistant
+  # Home automation server
+  #
+  homeassistant:
+    <<: *service-defaults
+    image: lscr.io/linuxserver/homeassistant:2022.6.4
+    container_name: homeassistant
+    network_mode: host
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/London
+    volumes:
+      - ./homeassistant/config:/config
 
   #
   # Prometheus for data collection
