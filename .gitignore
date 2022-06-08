@@ -19,5 +19,8 @@ jellyfin/config
 # Media
 media
 
+# torrent
+torrent
+
 # Wireguard Server
 wireguard_server/config

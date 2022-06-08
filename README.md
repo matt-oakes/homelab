@@ -43,6 +43,12 @@ Ensures the correct IP address is set on the domain DNS records to ensure that t
 
 A media server for streaming media to Google TV.
 
+### qBittorrent
+
+A torrent client with built into web UI and VPN support.
+
+To configure the VPN add a Wireguard config file to `torrent/config/wireguard/wg0.conf` and set `TORRENT_VPN_ENABLED` to `true` and then restart the service.
+
 ### Wireguard VPN Server
 
 Used to remotely connect to the internal home network from anywhere else.

@@ -57,6 +57,32 @@ services:
       PROXIED: 'false'
 
   #
+  # qBittorrent
+  # File downloaded, passed through the VPN configured above
+  #
+  torrent:
+    <<: *service-defaults
+    image: hotio/qbittorrent:release-4.4.3.1
+    container_name: torrent
+    environment:
+      PUID: 1000
+      PGID: 1000
+      UMASK: 002
+      TZ: Europe/London
+      VPN_ENABLED: '${TORRENT_VPN_ENABLED:?err}'
+    ports:
+      - 8080:8080
+    volumes:
+      - ./torrent/config:/config
+      - ./torrent/downloads:/downloads
+      - /lib/modules:/lib/modules
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+
+  #
   # Wireguard Server
   # External access to the internal network
   #

@@ -31,6 +31,13 @@
 		}
 	}
 
+	@torrent host torrent.%DOMAIN%
+	handle @torrent {
+		reverse_proxy {
+			to torrent:8080
+		}
+	}
+
 	@router host router.%DOMAIN%
 	handle @router {
 		reverse_proxy {
