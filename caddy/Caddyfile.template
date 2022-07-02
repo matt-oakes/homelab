@@ -3,6 +3,13 @@
 		dns cloudflare %CLOUDFLARE_API%
 	}
 
+	@doublecommander host files.%DOMAIN%
+	handle @doublecommander {
+		reverse_proxy {
+			to doublecommander:3000
+		}
+	}
+
 	@grafana host dashboard.%DOMAIN%
 	handle @grafana {
 		reverse_proxy {

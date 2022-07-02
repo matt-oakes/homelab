@@ -185,8 +185,6 @@ services:
     volumes:
       - grafana-data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
-    ports:
-      - 9999:3000
     env_file:
       - ./grafana/config.monitoring
 
@@ -221,3 +219,18 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /:/rootfs:ro
+
+  #
+  # Service to manage files through Doublecommander
+  #
+  doublecommander:
+    image: lscr.io/linuxserver/doublecommander:7f2eddf2-ls106
+    container_name: doublecommander
+    <<: *service-defaults
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/London
+    volumes:
+      - ./doublecommander/config:/config
+      - ./:/data
