@@ -90,7 +90,7 @@ services:
   #
   wireguard_server:
     <<: *service-defaults
-    image: lscr.io/linuxserver/wireguard:1.0.20210914
+    image: linuxserver/wireguard:1.0.20210914
     container_name: wireguard_server
     environment:
       PUID: 1000
@@ -117,7 +117,7 @@ services:
   #
   jellyfin:
     <<: *service-defaults
-    image: lscr.io/linuxserver/jellyfin:10.7.7
+    image: linuxserver/jellyfin:10.7.7
     container_name: jellyfin
     environment:
       PUID: 1000
@@ -144,7 +144,7 @@ services:
   #
   homeassistant:
     <<: *service-defaults
-    image: lscr.io/linuxserver/homeassistant:2022.6.4
+    image: linuxserver/homeassistant:2022.6.4
     container_name: homeassistant
     network_mode: host
     environment:
@@ -260,7 +260,7 @@ services:
   # Service to manage files through Doublecommander
   #
   doublecommander:
-    image: lscr.io/linuxserver/doublecommander:7f2eddf2-ls106
+    image: linuxserver/doublecommander:7f2eddf2-ls106
     container_name: doublecommander
     <<: *service-defaults
     environment:
