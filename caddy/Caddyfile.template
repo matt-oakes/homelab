@@ -45,6 +45,13 @@
 		}
 	}
 
+	@zigbee2mqtt host zigbee2mqtt.%DOMAIN%
+	handle @zigbee2mqtt {
+		reverse_proxy {
+			to zigbee2mqtt:8081
+		}
+	}
+
 	@homeassistant host homeassistant.%DOMAIN%
 	handle @homeassistant {
 		reverse_proxy {

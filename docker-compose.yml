@@ -155,6 +155,42 @@ services:
       - ./homeassistant/config:/config
 
   #
+  # MQTT message broker
+  #
+  mqtt:
+    image: eclipse-mosquitto:2.0.14
+    container_name: mqtt
+    <<: *service-defaults
+    user: 1000:1000
+    volumes:
+      - ./mqtt/config:/mosquitto/config
+      - ./mqtt/data:/mosquitto/data
+      - ./mqtt/log:/mosquitto/log
+    ports:
+      - 1883:1883
+      - 9001:9001
+
+  #
+  # Server to connect Zigbee adapter to the MQTT message broker
+  #
+  zigbee2mqtt:
+    image: koenkk/zigbee2mqtt:1.26.0
+    container_name: zigbee2mqtt
+    <<: *service-defaults
+    user: 1000:1000
+    group_add:
+      - dialout
+    volumes:
+      - ./zigbee2mqtt:/app/data
+      - /run/udev:/run/udev:ro
+    ports:
+      - 8081:8081
+    environment:
+      TZ: Europe/London
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+
+  #
   # Prometheus for data collection
   #
   prometheus:
