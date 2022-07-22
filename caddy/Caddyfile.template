@@ -3,6 +3,11 @@
 		dns cloudflare %CLOUDFLARE_API%
 	}
 
+	@caddymetrics host caddymetrics.%DOMAIN%
+	handle @caddymetrics {
+		metrics
+	}
+	
 	@doublecommander host files.%DOMAIN%
 	handle @doublecommander {
 		reverse_proxy {
@@ -35,6 +40,13 @@
 	handle @nas {
 		reverse_proxy {
 			to %NAS_IP%:5000
+		}
+	}
+
+	@prometheus host prometheus.%DOMAIN%
+	handle @prometheus {
+		reverse_proxy {
+			to prometheus:9090
 		}
 	}
 
