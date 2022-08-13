@@ -1,4 +1,4 @@
-FROM alpine:3.16.1
+FROM alpine:3.16.2
 
 # Install SSH deamon
 RUN apk add --no-cache openssh-client
