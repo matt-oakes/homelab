@@ -1,6 +1,7 @@
 *.%DOMAIN% {
 	tls %LETS_ENCRYPT_EMAIL% {
 		dns cloudflare %CLOUDFLARE_API%
+		resolvers 1.1.1.1
 	}
 
 	@caddymetrics host caddymetrics.%DOMAIN%
