@@ -35,5 +35,5 @@ homeassistant
 # Wireguard Server
 wireguard_server/config
 
-# Doublecommander
-doublecommander/config
+# FileBrowser
+filebrowser/database

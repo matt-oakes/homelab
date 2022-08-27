@@ -9,10 +9,10 @@
 		metrics
 	}
 	
-	@doublecommander host files.%DOMAIN%
-	handle @doublecommander {
+	@filebrowser host files.%DOMAIN%
+	handle @filebrowser {
 		reverse_proxy {
-			to doublecommander:3000
+			to filebrowser:80
 		}
 	}
 

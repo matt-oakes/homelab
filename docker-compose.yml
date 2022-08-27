@@ -258,16 +258,18 @@ services:
       - /:/rootfs:ro
 
   #
-  # Service to manage files through Doublecommander
+  # Service to manage files through FileBrowser
   #
-  doublecommander:
-    image: linuxserver/doublecommander:7f2eddf2-ls106
-    container_name: doublecommander
+  filebrowser:
+    image: filebrowser/filebrowser:v2.22.4-s6
+    container_name: filebrowser
     <<: *service-defaults
     environment:
       PUID: 1000
       PGID: 1000
       TZ: Europe/London
+      FB_NOAUTH: noauth
     volumes:
-      - ./doublecommander/config:/config
-      - ./:/data
+      - ./filebrowser/database:/database
+      - ./filebrowser/config:/config
+      - ./:/srv
