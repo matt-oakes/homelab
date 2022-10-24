@@ -50,6 +50,8 @@
 @doc Ensures everything is generated
 @depends_on caddy_generated
 @depends_on grafana_generated
+@depends_on code_ssh_linked
+@depends_on code_gitconfig_linked
 
 @goal caddy_generated
 @doc Generates the caddy config from the template, substituting in any secrets from .env
@@ -60,6 +62,17 @@
 @doc Generates the grafana config from the template, substituting in any secrets from .env
 @use_lib templating
     from-template grafana/config.monitoring.template grafana/config.monitoring
+
+@goal code_ssh_linked
+@doc Links the host machines .ssh directory with the code server server one
+    rm -rf ./code/config/.ssh
+    cp -rf $HOME/.ssh ./code/config/.ssh
+
+@goal code_gitconfig_linked
+@reached_if [[ -f ./code/config/.gitconfig ]]
+@doc Links the host machines .gitconfig file with the code server server one
+    rm -f ./code/config/.gitignore
+    cp $HOME/.gitconfig ./code/config/.gitconfig
 
 ###
 # Ensure all services are running
