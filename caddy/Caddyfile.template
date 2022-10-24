@@ -8,6 +8,13 @@
 	handle @caddymetrics {
 		metrics
 	}
+
+	@code host code.%DOMAIN%
+	handle @code {
+		reverse_proxy {
+			to code:8443
+		}
+	}
 	
 	@filebrowser host files.%DOMAIN%
 	handle @filebrowser {

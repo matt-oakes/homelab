@@ -273,3 +273,20 @@ services:
       - ./filebrowser/database:/database
       - ./filebrowser/config:/config
       - ./:/srv
+
+  #
+  # VSCode server
+  #
+  code:
+    image: linuxserver/code-server:4.7.1
+    container_name: code
+    <<: *service-defaults
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/London
+      PASSWORD: '${CODE_SERCER_PASSWORD:?err}'
+      DEFAULT_WORKSPACE: /project
+    volumes:
+      - ./code/config:/config
+      - ./:/project

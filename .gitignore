@@ -10,6 +10,9 @@ caddy/config
 caddy/data
 caddy/logs
 
+# VSCode
+code/config
+
 # Grafana
 grafana/config.monitoring
 

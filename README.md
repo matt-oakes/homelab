@@ -39,6 +39,10 @@ A custom script which will SSH into the Asus router and ensure the correct DNS s
 
 Ensures the correct IP address is set on the domain DNS records to ensure that the VPN works correctly.
 
+### VSCode
+
+A hosted VSCode instance which defaults to the workspace of the homelab itself. Allows easy modification and management.
+
 ### Jellyfin
 
 A media server for streaming media to Google TV.
