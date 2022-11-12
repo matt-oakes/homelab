@@ -261,7 +261,7 @@ services:
   # Service to manage files through FileBrowser
   #
   filebrowser:
-    image: filebrowser/filebrowser:v2.22.4-s6
+    image: filebrowser/filebrowser:v2.23.0-s6
     container_name: filebrowser
     <<: *service-defaults
     environment:
