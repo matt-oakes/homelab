@@ -278,7 +278,7 @@ services:
   # VSCode server
   #
   code:
-    image: linuxserver/code-server:4.7.1
+    image: linuxserver/code-server:4.9.0
     container_name: code
     <<: *service-defaults
     environment:
