@@ -145,7 +145,7 @@ services:
   #
   homeassistant:
     <<: *service-defaults
-    image: linuxserver/homeassistant:2022.12.1
+    image: linuxserver/homeassistant:2022.12.6
     container_name: homeassistant
     network_mode: host
     environment:
