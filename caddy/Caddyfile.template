@@ -86,6 +86,13 @@
 		}
 	}
 
+	@downstairsvacuum host downstairsvacuum.%DOMAIN%
+	handle @downstairsvacuum {
+		reverse_proxy {
+			to %DOWNSTAIRS_VACUUM_IP%:80
+		}
+	}
+
 	log {
 		output file /var/log/caddy/access.log {
 			roll_size 10mb
