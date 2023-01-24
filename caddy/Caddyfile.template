@@ -12,7 +12,7 @@
 	@code host code.%DOMAIN%
 	handle @code {
 		reverse_proxy {
-			to code:8443
+			to host.docker.internal:8768
 		}
 	}
 	

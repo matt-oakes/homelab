@@ -25,6 +25,7 @@
 @doc Installs all dependencies
 @depends_on docker_installed
 @depends_on docker_compose_installed
+@depends_on code_server_installed
 
 # Docker
 @goal docker_installed
@@ -42,6 +43,14 @@
   sudo apt-get install -y libffi-dev libssl-dev python3-dev python3 python3-pip
   sudo pip3 install docker-compose
 
+# Code Server
+@goal code_server_installed
+@doc Installs code server using the install script
+  curl -fsSL https://code-server.dev/install.sh | sh
+  cp -f ./code/config.yaml ~/.config/code-server/config.yaml
+  sudo systemctl enable code-server@$USER
+  sudo systemctl restart code-server@$USER
+
 ###
 # Make sure config files needed to get everything running are generated
 ###
@@ -50,8 +59,6 @@
 @doc Ensures everything is generated
 @depends_on caddy_generated
 @depends_on grafana_generated
-@depends_on code_ssh_linked
-@depends_on code_gitconfig_linked
 
 @goal caddy_generated
 @doc Generates the caddy config from the template, substituting in any secrets from .env
@@ -62,17 +69,6 @@
 @doc Generates the grafana config from the template, substituting in any secrets from .env
 @use_lib templating
     from-template grafana/config.monitoring.template grafana/config.monitoring
-
-@goal code_ssh_linked
-@doc Links the host machines .ssh directory with the code server server one
-    rm -rf ./code/config/.ssh
-    cp -rf $HOME/.ssh ./code/config/.ssh
-
-@goal code_gitconfig_linked
-@reached_if [[ -f ./code/config/.gitconfig ]]
-@doc Links the host machines .gitconfig file with the code server server one
-    rm -f ./code/config/.gitignore
-    cp $HOME/.gitconfig ./code/config/.gitconfig
 
 ###
 # Ensure all services are running
