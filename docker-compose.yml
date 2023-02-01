@@ -228,7 +228,7 @@ services:
   #
   speedtest:
     <<: *service-defaults
-    image: ghcr.io/miguelndecarvalho/speedtest-exporter:v3.4.1
+    image: ghcr.io/miguelndecarvalho/speedtest-exporter:v3.5.3
     container_name: speedtest
     expose:
       - 9798
