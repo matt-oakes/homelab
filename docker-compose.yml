@@ -173,7 +173,7 @@ services:
   # Server to connect Zigbee adapter to the MQTT message broker
   #
   zigbee2mqtt:
-    image: koenkk/zigbee2mqtt:1.29.2
+    image: koenkk/zigbee2mqtt:1.30.0
     container_name: zigbee2mqtt
     <<: *service-defaults
     user: 1000:1000
