@@ -5,6 +5,7 @@ on:
   # The "*" (#42, asterisk) character has special semantics in YAML, so this
   # string has to be quoted.
   - cron: '0 6 * * 6'
+
 jobs:
   renovate:
     runs-on: ubuntu-latest
@@ -12,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.0.0
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v32.14.1
+        uses: renovatebot/github-action@v34.109.1
         with:
           configurationFile: renovate.js
           token: ${{ secrets.RENOVATE_TOKEN }}

@@ -23,5 +23,9 @@ module.exports = {
         dependencyDashboardApproval: false,
         stabilityDays: 0,
       },
+      {
+        matchPackageNames: ["linuxserver/jellyfin"],
+        allowedVersions: "<=1000.0.0"
+      }
     ],
   };
