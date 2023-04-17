@@ -14,21 +14,6 @@ volumes:
 # Define each service
 services:
   #
-  # Asus DNS
-  # Runs a cron job which ensures that the Asus router has the correct local DNS records to get the local services to work
-  #
-  asus_dns:
-    <<: *service-defaults
-    build: asus_dns
-    container_name: asus_dns
-    environment:
-      ROUTER_SSH_USER: '${ROUTER_SSH_USER:?err}'
-      ROUTER_IP: '${ROUTER_IP:?err}'
-      ROUTER_SSH_PORT: '${ROUTER_SSH_PORT:?err}'
-      HOST_IP: '${HOST_IP:?err}'
-      DOMAIN: '${DOMAIN:?err}'
-
-  #
   # Caddy HTTP server
   # Provide HTTPS access to the other services while automatically handling certificate creation and renewal for the domain name
   #

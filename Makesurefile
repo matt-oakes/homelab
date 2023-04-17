@@ -76,18 +76,11 @@
 
 @goal running
 @depends_on docker_compose_running
-@depends_on dhclient_refresh_installed
 
 @goal docker_compose_running
 @doc Ensures the docker compose services are running
-  docker-compose build asus_dns
   docker-compose build caddy
   docker-compose up -d --remove-orphans
-
-@goal dhclient_refresh_installed
-@doc Ensures the dhclient refresh service and timer are installed and running
-  cd dhclient
-  ./install-service.sh
 
 ###
 # The default goal which ensures that everything is set up and running correctly

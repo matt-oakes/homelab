@@ -37,13 +37,6 @@
 		}
 	}
 
-	@modem host modem.%DOMAIN%
-	handle @modem {
-		reverse_proxy {
-			to %MODEM_IP%
-		}
-	}
-
 	@nas host nas.%DOMAIN%
 	handle @nas {
 		reverse_proxy {
