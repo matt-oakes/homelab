@@ -1,96 +1,101 @@
-*.%DOMAIN% {
-	tls %LETS_ENCRYPT_EMAIL% {
-		dns cloudflare %CLOUDFLARE_API%
-		resolvers 1.1.1.1
-	}
-
-	@caddymetrics host caddymetrics.%DOMAIN%
-	handle @caddymetrics {
-		metrics
-	}
-
-	@code host code.%DOMAIN%
-	handle @code {
-		reverse_proxy {
-			to host.docker.internal:8768
+(services_with_domain) {
+	*.{args.0} {
+		tls %LETS_ENCRYPT_EMAIL% {
+			dns cloudflare %CLOUDFLARE_API%
+			resolvers 1.1.1.1
 		}
-	}
-	
-	@filebrowser host files.%DOMAIN%
-	handle @filebrowser {
-		reverse_proxy {
-			to filebrowser:80
-		}
-	}
 
-	@grafana host dashboard.%DOMAIN%
-	handle @grafana {
-		reverse_proxy {
-			to grafana:3000
+		@caddymetrics host caddymetrics.{args.0}
+		handle @caddymetrics {
+			metrics
 		}
-	}
 
-	@jellyfin host jellyfin.%DOMAIN%
-	handle @jellyfin {
-		reverse_proxy {
-			to jellyfin:8096
+		@code host code.{args.0}
+		handle @code {
+			reverse_proxy {
+				to host.docker.internal:8768
+			}
 		}
-	}
-
-	@nas host nas.%DOMAIN%
-	handle @nas {
-		reverse_proxy {
-			to %NAS_IP%:5000
+		
+		@filebrowser host files.{args.0}
+		handle @filebrowser {
+			reverse_proxy {
+				to filebrowser:80
+			}
 		}
-	}
 
-	@prometheus host prometheus.%DOMAIN%
-	handle @prometheus {
-		reverse_proxy {
-			to prometheus:9090
+		@grafana host dashboard.{args.0}
+		handle @grafana {
+			reverse_proxy {
+				to grafana:3000
+			}
 		}
-	}
 
-	@torrent host torrent.%DOMAIN%
-	handle @torrent {
-		reverse_proxy {
-			to torrent:8080
+		@jellyfin host jellyfin.{args.0}
+		handle @jellyfin {
+			reverse_proxy {
+				to jellyfin:8096
+			}
 		}
-	}
 
-	@zigbee2mqtt host zigbee2mqtt.%DOMAIN%
-	handle @zigbee2mqtt {
-		reverse_proxy {
-			to zigbee2mqtt:8081
+		@nas host nas.{args.0}
+		handle @nas {
+			reverse_proxy {
+				to %NAS_IP%:5000
+			}
 		}
-	}
 
-	@homeassistant host homeassistant.%DOMAIN%
-	handle @homeassistant {
-		reverse_proxy {
-			to host.docker.internal:8123
+		@prometheus host prometheus.{args.0}
+		handle @prometheus {
+			reverse_proxy {
+				to prometheus:9090
+			}
 		}
-	}
 
-	@router host router.%DOMAIN%
-	handle @router {
-		reverse_proxy {
-			to %ROUTER_IP%:80
+		@torrent host torrent.{args.0}
+		handle @torrent {
+			reverse_proxy {
+				to torrent:8080
+			}
 		}
-	}
 
-	@downstairsvacuum host downstairsvacuum.%DOMAIN%
-	handle @downstairsvacuum {
-		reverse_proxy {
-			to %DOWNSTAIRS_VACUUM_IP%:80
+		@zigbee2mqtt host zigbee2mqtt.{args.0}
+		handle @zigbee2mqtt {
+			reverse_proxy {
+				to zigbee2mqtt:8081
+			}
 		}
-	}
 
-	log {
-		output file /var/log/caddy/access.log {
-			roll_size 10mb
-			roll_keep 5
-			roll_keep_for 24h
+		@homeassistant host homeassistant.{args.0}
+		handle @homeassistant {
+			reverse_proxy {
+				to host.docker.internal:8123
+			}
+		}
+
+		@router host router.{args.0}
+		handle @router {
+			reverse_proxy {
+				to %ROUTER_IP%:80
+			}
+		}
+
+		@downstairsvacuum host downstairsvacuum.{args.0}
+		handle @downstairsvacuum {
+			reverse_proxy {
+				to %DOWNSTAIRS_VACUUM_IP%:80
+			}
+		}
+
+		log {
+			output file /var/log/caddy/access.log {
+				roll_size 10mb
+				roll_keep 5
+				roll_keep_for 24h
+			}
 		}
 	}
 }
+
+import services_with_domain "%DOMAIN%"
+import services_with_domain "tailnet.oakes.ws"

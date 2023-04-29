@@ -67,6 +67,27 @@ services:
       - SYS_MODULE
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=0
+
+  #
+  # Tailscale
+  # Mesh overlay network for accessing services remotely
+  #
+  tailscale:
+    <<: *service-defaults
+    image: tailscale/tailscale
+    container_name: tailscale
+    hostname: local
+    environment:
+      TS_AUTHKEY: '${TAILSCALE_AUTH_KEY:?err}'
+      TS_STATE_DIR: /var/lib/tailscale
+    volumes:
+      - ./tailscale:/var/lib
+      - /dev/net/tun:/dev/net/tun
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
 
   #
   # Wireguard Server

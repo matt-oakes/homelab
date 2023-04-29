@@ -40,3 +40,6 @@ wireguard_server/config
 
 # FileBrowser
 filebrowser/database
+
+# Tailscale
+tailscale
