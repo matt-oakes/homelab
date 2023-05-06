@@ -122,7 +122,7 @@ services:
   #
   jellyfin:
     <<: *service-defaults
-    image: linuxserver/jellyfin:10.8.9
+    image: linuxserver/jellyfin:10.8.10
     container_name: jellyfin
     environment:
       PUID: 1000
