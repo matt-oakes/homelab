@@ -149,7 +149,7 @@ services:
   #
   homeassistant:
     <<: *service-defaults
-    image: linuxserver/homeassistant:2023.3.3
+    image: linuxserver/homeassistant:2023.5.2
     container_name: homeassistant
     network_mode: host
     environment:
