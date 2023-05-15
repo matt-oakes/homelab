@@ -31,18 +31,6 @@ services:
       - ./caddy/logs:/var/log/caddy
     extra_hosts:
       - host.docker.internal:host-gateway
-  
-  #
-  # A small script which will keep the 
-  #
-  cloudflare_ddns:
-    image: oznu/cloudflare-ddns:latest
-    restart: always
-    environment:
-      API_KEY: '${CLOUDFLARE_API:?err}'
-      ZONE: '${DOMAIN:?err}'
-      SUBDOMAIN: '${WIREGUARD_SERVER_SUBDOMAIN:?err}'
-      PROXIED: 'false'
 
   #
   # qBittorrent
@@ -70,46 +58,21 @@ services:
       - net.ipv6.conf.all.disable_ipv6=0
 
   #
-  # Tailscale
-  # Mesh overlay network for accessing services remotely
+  # Wireguard Connection to VPS
+  # Connects to the VPS Wireguard server to allow tunneled remote connections
   #
-  tailscale:
-    <<: *service-defaults
-    image: tailscale/tailscale
-    container_name: tailscale
-    hostname: local
-    environment:
-      TS_AUTHKEY: '${TAILSCALE_AUTH_KEY:?err}'
-      TS_STATE_DIR: /var/lib/tailscale
-    volumes:
-      - ./tailscale:/var/lib
-      - /dev/net/tun:/dev/net/tun
-    network_mode: host
-    cap_add:
-      - NET_ADMIN
-      - SYS_MODULE
-
-  #
-  # Wireguard Server
-  # External access to the internal network
-  #
-  wireguard_server:
+  wireguard_vps:
     <<: *service-defaults
     image: linuxserver/wireguard:1.0.20210914
-    container_name: wireguard_server
+    container_name: wireguard_vps
     environment:
       PUID: 1000
       PGID: 1000
       TZ: Europe/London
-      SERVERURL: '${WIREGUARD_SERVER_SUBDOMAIN:?err}.${DOMAIN:?err}'
-      SERVERPORT: 51820
-      PEERS: '${WIREGUARD_SERVER_PEERS:?err}'
-      ALLOWEDIPS: 0.0.0.0/0,::0/0
-      PEERDNS: auto
     ports:
       - 51820:51820/udp
     volumes:
-      - ./wireguard_server/config:/config
+      - ./wireguard_vps/config:/config
       - /lib/modules:/lib/modules
     cap_add:
       - NET_ADMIN
