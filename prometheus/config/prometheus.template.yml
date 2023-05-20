@@ -27,4 +27,4 @@ scrape_configs:
   
   - job_name: 'caddy'
     static_configs:
-      - targets: ['caddymetrics.oakes.ws']
+      - targets: ['caddymetrics.%DOMAIN%']

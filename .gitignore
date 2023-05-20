@@ -15,6 +15,7 @@ code/config
 
 # Grafana
 grafana/config.monitoring
+prometheus/config/prometheus.yml
 
 # Jellyfin
 jellyfin/config
