@@ -107,22 +107,6 @@ services:
       - 1900:1900/udp
 
   #
-  # Home Assistant
-  # Home automation server
-  #
-  homeassistant:
-    <<: *service-defaults
-    image: linuxserver/homeassistant:2023.5.2
-    container_name: homeassistant
-    network_mode: host
-    environment:
-      PUID: 1000
-      PGID: 1000
-      TZ: Europe/London
-    volumes:
-      - ./homeassistant/config:/config
-
-  #
   # MQTT message broker
   #
   mqtt:
@@ -137,26 +121,6 @@ services:
     ports:
       - 1883:1883
       - 9001:9001
-
-  #
-  # Server to connect Zigbee adapter to the MQTT message broker
-  #
-  zigbee2mqtt:
-    image: koenkk/zigbee2mqtt:1.30.4
-    container_name: zigbee2mqtt
-    <<: *service-defaults
-    user: 1000:1000
-    group_add:
-      - dialout
-    volumes:
-      - ./zigbee2mqtt:/app/data
-      - /run/udev:/run/udev:ro
-    ports:
-      - 8081:8081
-    environment:
-      TZ: Europe/London
-    devices:
-      - /dev/ttyUSB0:/dev/ttyUSB0
 
   #
   # Prometheus for data collection
