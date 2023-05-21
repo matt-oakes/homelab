@@ -16,8 +16,8 @@ scrape_configs:
 
   - job_name: 'speedtest'
     metrics_path: /metrics
-    scrape_interval: 60m
-    scrape_timeout: 60s  # running speedtest needs time to complete
+    scrape_interval: 360m # 4 per day
+    scrape_timeout: 120s  # running speedtest needs time to complete
     static_configs:
       - targets: ['speedtest:9798']
 
