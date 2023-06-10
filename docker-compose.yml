@@ -146,7 +146,7 @@ services:
   #
   grafana:
     <<: *service-defaults
-    image: grafana/grafana:9.5.2
+    image: grafana/grafana:9.5.3
     container_name: grafana
     depends_on:
       - prometheus
