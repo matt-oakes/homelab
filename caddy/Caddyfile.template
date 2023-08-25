@@ -58,6 +58,13 @@
 		}
 	}
 
+	@wireguard host wireguard.%DOMAIN%
+	handle @wireguard {
+		reverse_proxy {
+			to wireguard:51821
+		}
+	}
+
 	@router host router.%DOMAIN%
 	handle @router {
 		reverse_proxy {

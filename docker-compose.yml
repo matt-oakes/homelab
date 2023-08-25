@@ -34,11 +34,11 @@ services:
 
   #
   # qBittorrent
-  # File downloaded, passed through the VPN configured above
+  # Bittorrent client with a web interface
   #
   torrent:
     <<: *service-defaults
-    image: hotio/qbittorrent:release-4.4.3.1
+    image: hotio/qbittorrent:release-4.5.4
     container_name: torrent
     environment:
       PUID: 1000
@@ -56,28 +56,28 @@ services:
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.disable_ipv6=0
-
+  
   #
-  # Wireguard Connection to VPS
-  # Connects to the VPS Wireguard server to allow tunneled remote connections
+  # Wireguard Server
+  # Allows devices to connect into the local network remotely. This also provides an admin interface
   #
-  wireguard_vps:
+  wireguard:
     <<: *service-defaults
-    image: linuxserver/wireguard:1.0.20210914
-    container_name: wireguard_vps
+    image: weejewel/wg-easy
+    container_name: wireguard
+    hostname: wireguard
     environment:
-      PUID: 1000
-      PGID: 1000
       TZ: Europe/London
+      WG_HOST: '${WIREGUARD_HOSTNAME:?err}'
+    volumes:
+      - ./wireguard:/etc/wireguard
     ports:
       - 51820:51820/udp
-    volumes:
-      - ./wireguard_vps/config:/config
-      - /lib/modules:/lib/modules
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
     sysctls:
+      - net.ipv4.ip_forward=1
       - net.ipv4.conf.all.src_valid_mark=1
   
   #

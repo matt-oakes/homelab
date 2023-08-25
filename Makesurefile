@@ -60,7 +60,6 @@
 @depends_on caddy_generated
 @depends_on grafana_generated
 @depends_on prometheus_generated
-@depends_on wireguard_vps_generated
 
 @goal caddy_generated
 @doc Generates the caddy config from the template, substituting in any secrets from .env
@@ -76,11 +75,6 @@
 @doc Generates the prometheus config from the template, substituting in any secrets from .env
 @use_lib templating
     from-template prometheus/config/prometheus.template.yml prometheus/config/prometheus.yml
-
-@goal wireguard_vps_generated
-@doc Generates the Wireguard VPS config from the template, substituting in any secrets from .env
-@use_lib templating
-    from-template wireguard_vps/config/wg0.conf.template wireguard_vps/config/wg0.conf
 
 ###
 # Ensure all services are running

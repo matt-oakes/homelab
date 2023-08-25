@@ -37,8 +37,7 @@ zigbee2mqtt
 homeassistant
 
 # Wireguard Server
-wireguard_vps/config/*
-!wireguard_vps/config/wg0.conf.template
+wireguard*/
 
 # FileBrowser
 filebrowser/database
