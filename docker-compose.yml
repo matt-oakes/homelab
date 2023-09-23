@@ -110,7 +110,7 @@ services:
   # MQTT message broker
   #
   mqtt:
-    image: eclipse-mosquitto:2.0.17
+    image: eclipse-mosquitto:2.0.18
     container_name: mqtt
     <<: *service-defaults
     user: 1000:1000
