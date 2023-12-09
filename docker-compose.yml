@@ -127,7 +127,7 @@ services:
   #
   prometheus:
     <<: *service-defaults
-    image: prom/prometheus:v2.48.0
+    image: prom/prometheus:v2.48.1
     container_name: prometheus
     volumes:
       - ./prometheus/config:/etc/prometheus
