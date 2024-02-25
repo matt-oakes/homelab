@@ -31,6 +31,3 @@ mqtt/log/
 
 # Wireguard Server
 wireguard*/
-
-# FileBrowser
-filebrowser/database/
