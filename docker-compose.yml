@@ -56,7 +56,7 @@ services:
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.disable_ipv6=0
-  
+
   #
   # Wireguard Server
   # Allows devices to connect into the local network remotely. This also provides an admin interface
@@ -79,7 +79,7 @@ services:
     sysctls:
       - net.ipv4.ip_forward=1
       - net.ipv4.conf.all.src_valid_mark=1
-  
+
   #
   # Jellyfin media server
   #
@@ -92,10 +92,6 @@ services:
       PGID: 1000
       TZ: Europe/London
       JELLYFIN_PublishedServerUrl: 'jellyfin.${DOMAIN:?err}'
-    devices:
-      - "/dev/video10:/dev/video10"
-      - "/dev/video11:/dev/video11"
-      - "/dev/video12:/dev/video12"
     volumes:
       - ./jellyfin/config:/config
       - ./media/tvshows:/data/tvshows
