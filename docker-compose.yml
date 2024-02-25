@@ -4,13 +4,6 @@ x-service-defaults:
   &service-defaults
   restart: unless-stopped
 
-# Define any volumes to store data
-volumes:
-  caddy-config:
-  caddy-data:
-  grafana-data:
-  prometheus-data:
-
 # Define each service
 services:
   #
@@ -26,8 +19,8 @@ services:
       - 443:443
       - 2019:2019
     volumes:
-      - caddy-config:/config
-      - caddy-data:/data
+      - ./caddy/config:/config
+      - ./caddy/data:/data
       - ./caddy/logs:/var/log/caddy
     extra_hosts:
       - host.docker.internal:host-gateway
@@ -125,9 +118,10 @@ services:
     <<: *service-defaults
     image: prom/prometheus:v2.49.1
     container_name: prometheus
+    user: 1000:1000
     volumes:
       - ./prometheus/config:/etc/prometheus
-      - prometheus-data:/prometheus
+      - ./prometheus/data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -136,7 +130,7 @@ services:
       - '--web.console.templates=/usr/share/prometheus/consoles'
     ports:
       - 9090:9090
-  
+
   #
   # Grafana for displaying collected data
   #
@@ -144,10 +138,11 @@ services:
     <<: *service-defaults
     image: grafana/grafana:10.3.1
     container_name: grafana
+    user: 1000:1000
     depends_on:
       - prometheus
     volumes:
-      - grafana-data:/var/lib/grafana
+      - ./grafana/data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
     env_file:
       - ./grafana/config.monitoring

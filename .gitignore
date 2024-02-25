@@ -1,43 +1,36 @@
 # Config
 .env
 
-# Asus DNS
-asus_dns/ssh
-
 # Caddy
 caddy/Caddyfile
-caddy/config
-caddy/data
-caddy/logs
+caddy/config/
+caddy/data/
+caddy/logs/
 
 # VSCode
-code/config
+code/config/
 
 # Grafana
 grafana/config.monitoring
+grafana/data/
 prometheus/config/prometheus.yml
+prometheus/data/
 
 # Jellyfin
-jellyfin/config
+jellyfin/config/
 
 # Media
-media
+media/
 
 # torrent
-torrent
+torrent/
 
 # mqtt
-mqtt/data
-mqtt/log
-
-# zigbee2mqtt
-zigbee2mqtt
-
-# Home Assistant
-homeassistant
+mqtt/data/
+mqtt/log/
 
 # Wireguard Server
 wireguard*/
 
 # FileBrowser
-filebrowser/database
+filebrowser/database/
