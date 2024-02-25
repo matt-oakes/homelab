@@ -63,7 +63,7 @@ services:
   #
   wireguard:
     <<: *service-defaults
-    image: weejewel/wg-easy
+    image: ghcr.io/wg-easy/wg-easy
     container_name: wireguard
     hostname: wireguard
     environment:
