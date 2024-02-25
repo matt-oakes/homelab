@@ -92,6 +92,17 @@
   docker compose up -d --remove-orphans
 
 ###
+# Ensure the system is cleaned
+###
+
+@goal cleaned
+@depends_on docker_cleaned
+
+@goal docker_cleaned
+@doc Cleans up unused Docker resources
+  docker system prune -f
+
+###
 # The default goal which ensures that everything is set up and running correctly
 ###
 
@@ -99,3 +110,4 @@
 @depends_on dependencies_installed
 @depends_on config_generated
 @depends_on running
+@depends_on cleaned
