@@ -39,7 +39,16 @@
 # Code Server
 @goal code_server_installed
 @doc Installs code server using the install script
-  curl -fsSL https://code-server.dev/install.sh | sh
+  latest_version=$(curl -fsSL https://api.github.com/repos/coder/code-server/releases | awk 'match($0,/.*"html_url": "(.*\/releases\/tag\/.*)".*/)' | head -n 1 | awk -F '"' '{print $4}')
+  latest_version="${latest_version#https://github.com/coder/code-server/releases/tag/}"
+  latest_version="${latest_version#v}"
+
+  installed_version=$((dpkg-query --showformat='${Version}\n' --show code-server 2> /dev/null) || echo "0")
+
+  if [ $installed_version != $latest_version ]; then
+    curl -fsSL https://code-server.dev/install.sh | sh
+  fi
+
   mkdir -p ~/.config/code-server
   cp -f ./code/config.yaml ~/.config/code-server/config.yaml
   sudo systemctl enable code-server@$USER
