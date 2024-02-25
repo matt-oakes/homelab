@@ -33,12 +33,14 @@
   curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
   sudo sh /tmp/get-docker.sh
   rm /tmp/get-docker.sh
-  sudo usermod -aG docker pi
+  sudo usermod -aG docker $USER
+  newgrp docker
 
 # Code Server
 @goal code_server_installed
 @doc Installs code server using the install script
   curl -fsSL https://code-server.dev/install.sh | sh
+  mkdir -p ~/.config/code-server
   cp -f ./code/config.yaml ~/.config/code-server/config.yaml
   sudo systemctl enable code-server@$USER
   sudo systemctl restart code-server@$USER
