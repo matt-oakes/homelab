@@ -24,7 +24,6 @@
 @goal dependencies_installed
 @doc Installs all dependencies
 @depends_on docker_installed
-@depends_on docker_compose_installed
 @depends_on code_server_installed
 
 # Docker
@@ -35,13 +34,6 @@
   sudo sh /tmp/get-docker.sh
   rm /tmp/get-docker.sh
   sudo usermod -aG docker pi
-
-# Docker Compose
-@goal docker_compose_installed
-@doc Installs docker-compose from pip3
-@reached_if which docker-compose > /dev/null 2>&1
-  sudo apt-get install -y libffi-dev libssl-dev python3-dev python3 python3-pip
-  sudo pip3 install docker-compose
 
 # Code Server
 @goal code_server_installed
@@ -85,8 +77,8 @@
 
 @goal docker_compose_running
 @doc Ensures the docker compose services are running
-  docker-compose build caddy
-  docker-compose up -d --remove-orphans
+  docker compose build caddy
+  docker compose up -d --remove-orphans
 
 ###
 # The default goal which ensures that everything is set up and running correctly
