@@ -178,3 +178,21 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /:/rootfs:ro
+  
+  #
+  # Backup with duplicati
+  #
+  backup:
+    <<: *service-defaults
+    image: linuxserver/duplicati:2.0.7
+    container_name: backup
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/London
+    volumes:
+      - ./backup/config:/config
+      - ./backup/data:/backups
+      - .:/source
+    ports:
+      - 8200:8200

@@ -16,10 +16,10 @@
 		}
 	}
 	
-	@filebrowser host files.%DOMAIN%
-	handle @filebrowser {
+	@backup host backup.%DOMAIN%
+	handle @backup {
 		reverse_proxy {
-			to filebrowser:80
+			to backup:8200
 		}
 	}
 

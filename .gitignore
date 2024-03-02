@@ -1,6 +1,10 @@
 # Config
 .env
 
+# Backup
+backup/config/
+backup/data/
+
 # Caddy
 caddy/Caddyfile
 caddy/config/
