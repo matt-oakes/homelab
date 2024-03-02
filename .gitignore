@@ -11,6 +11,9 @@ caddy/config/
 caddy/data/
 caddy/logs/
 
+# Home Assistant
+homeassistant/
+
 # VSCode
 code/config/
 

@@ -30,6 +30,13 @@
 		}
 	}
 
+        @homeassistant host homeassistant.%DOMAIN%
+        handle @homeassistant {
+                reverse_proxy {
+                        to host.docker.internal:8123
+                }
+        }
+
 	@jellyfin host jellyfin.%DOMAIN%
 	handle @jellyfin {
 		reverse_proxy {
