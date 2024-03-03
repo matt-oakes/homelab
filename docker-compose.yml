@@ -48,7 +48,6 @@ services:
       - SYS_MODULE
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
-      - net.ipv6.conf.all.disable_ipv6=0
 
   #
   # Wireguard Server
@@ -78,7 +77,7 @@ services:
   #
   homeassistant:
     <<: *service-defaults
-    image: linuxserver/homeassistant:2024.1.6
+    image: linuxserver/homeassistant:2024.2.5
     container_name: homeassistant
     network_mode: host
     privileged: true
