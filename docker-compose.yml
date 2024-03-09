@@ -77,7 +77,7 @@ services:
   #
   homeassistant:
     <<: *service-defaults
-    image: linuxserver/homeassistant:2024.2.5
+    image: linuxserver/homeassistant:2024.3.0
     container_name: homeassistant
     network_mode: host
     privileged: true
