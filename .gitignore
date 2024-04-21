@@ -38,3 +38,6 @@ mqtt/log/
 
 # Wireguard Server
 wireguard*/
+
+# zigbee2mqtt
+zigbee2mqtt/

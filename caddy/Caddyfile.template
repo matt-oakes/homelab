@@ -72,6 +72,13 @@
 		}
 	}
 
+	@zigbee2mqtt host zigbee2mqtt.%DOMAIN%
+	handle @zigbee2mqtt {
+		reverse_proxy {
+			to zigbee2mqtt:8080
+		}
+	}
+
 	@router host router.%DOMAIN%
 	handle @router {
 		reverse_proxy {
