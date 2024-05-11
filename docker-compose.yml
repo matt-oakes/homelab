@@ -222,7 +222,7 @@ services:
   #
   backup:
     <<: *service-defaults
-    image: linuxserver/duplicati:2.0.7
+    image: linuxserver/duplicati:2.0.8
     container_name: backup
     environment:
       PUID: 1000
