@@ -98,7 +98,7 @@ services:
   #
   zigbee2mqtt:
     <<: *service-defaults
-    image: koenkk/zigbee2mqtt:1.36.1
+    image: koenkk/zigbee2mqtt:1.37.1
     container_name: zigbee2mqtt
     user: 1000:1000
     group_add:
