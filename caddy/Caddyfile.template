@@ -23,6 +23,13 @@
 		}
 	}
 
+	@frigate host frigate.%DOMAIN%
+	handle @frigate {
+		reverse_proxy {
+			to frigate:5000
+		}
+	}
+
 	@grafana host dashboard.%DOMAIN%
 	handle @grafana {
 		reverse_proxy {
@@ -30,12 +37,12 @@
 		}
 	}
 
-        @homeassistant host homeassistant.%DOMAIN%
-        handle @homeassistant {
-                reverse_proxy {
-                        to host.docker.internal:8123
-                }
-        }
+	@homeassistant host homeassistant.%DOMAIN%
+	handle @homeassistant {
+			reverse_proxy {
+					to host.docker.internal:8123
+			}
+	}
 
 	@jellyfin host jellyfin.%DOMAIN%
 	handle @jellyfin {
@@ -100,4 +107,8 @@
 			roll_keep_for 24h
 		}
 	}
+}
+
+servers {
+	metrics
 }

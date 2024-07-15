@@ -17,6 +17,9 @@ homeassistant/
 # VSCode
 code/config/
 
+# Frigate
+frigate/
+
 # Grafana
 grafana/config.monitoring
 grafana/data/

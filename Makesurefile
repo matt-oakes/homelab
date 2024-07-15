@@ -25,6 +25,7 @@
 @doc Installs all dependencies
 @depends_on docker_installed
 @depends_on code_server_installed
+@depends_on coral_tpu_installed
 
 # Docker
 @goal docker_installed
@@ -53,6 +54,15 @@
   cp -f ./code/config.yaml ~/.config/code-server/config.yaml
   sudo systemctl enable code-server@$USER
   sudo systemctl restart code-server@$USER
+
+# Coral TPU
+@goal coral_tpu_installed
+@doc Installs runtime for the Coral TPU
+@reached_if dpkg-query --show libedgetpu1-std > /dev/null 2>&1
+  echo "deb https://packages.cloud.google.com/apt coral-edgetpu-stable main" | sudo tee /etc/apt/sources.list.d/coral-edgetpu.list
+  curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo tee /etc/apt/trusted.gpg.d/coral-edgetpu.gpg
+  sudo apt-get update
+  sudo apt-get install libedgetpu1-std
 
 ###
 # Make sure config files needed to get everything running are generated

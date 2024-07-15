@@ -112,6 +112,30 @@ services:
       - /dev/ttyUSB0:/dev/ttyUSB0
 
   #
+  # Frigate NVR
+  #
+  frigate:
+    <<: *service-defaults
+    image: ghcr.io/blakeblackshear/frigate:0.14.0-beta4-standard-arm64
+    container_name: frigate
+    privileged: true
+    shm_size: "64mb" # Comfigure shared memory based on the number of cameras. 64MB is good enough for 2-3 cameras detecting at 720
+    devices:
+      - /dev/bus/usb:/dev/bus/usb # USB Coral TPU
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./frigate/config:/config
+      - ./frigate/media:/media/frigate
+      - ./frigate/cache:/tmp/cache
+    ports:
+      - "172.17.0.1:5000:5000"
+      - 8554:8554 # RTSP feeds
+      - 8555:8555/tcp # WebRTC over tcp
+      - 8555:8555/udp # WebRTC over udp
+    environment:
+      FRIGATE_RTSP_PASSWORD: '${FRIGATE_RTSP_PASSWORD:?err}'
+
+  #
   # Jellyfin media server
   #
   jellyfin:
