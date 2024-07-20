@@ -226,7 +226,7 @@ services:
   #
   pi_monitor:
     <<: *service-defaults
-    image: prom/node-exporter:v1.8.1
+    image: prom/node-exporter:v1.8.2
     container_name: pi_monitor
     privileged: true
     ports:
