@@ -1,5 +1,3 @@
-version: "3.7"
-
 x-service-defaults:
   &service-defaults
   restart: unless-stopped
@@ -31,7 +29,7 @@ services:
   #
   torrent:
     <<: *service-defaults
-    image: hotio/qbittorrent:release-4.6.5
+    image: hotio/qbittorrent:release-1236a2e
     container_name: torrent
     environment:
       PUID: 1000
@@ -39,6 +37,15 @@ services:
       UMASK: 002
       TZ: Europe/London
       VPN_ENABLED: '${TORRENT_VPN_ENABLED:?err}'
+      VPN_PROVIDER: proton
+      VPN_LAN_NETWORK: 192.168.188.0/24
+      VPN_LAN_LEAK_ENABLED: false
+      VPN_AUTO_PORT_FORWARD: true
+      VPN_KEEP_LOCAL_DNS: false
+      VPN_FIREWALL_TYPE: auto
+      VPN_HEALTHCHECK_ENABLED: true
+      PRIVOXY_ENABLED: false
+      UNBOUND_ENABLED: false
     volumes:
       - ./torrent/config:/config
       - ./torrent/downloads:/downloads
