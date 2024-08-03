@@ -184,7 +184,7 @@ services:
   # Actual accounting
   #
   actual:
-    image: docker.io/actualbudget/actual-server:24.7.0
+    image: docker.io/actualbudget/actual-server:24.8.0
     <<: *service-defaults
     environment:
       TZ: Europe/London
