@@ -1,6 +1,9 @@
 # Config
 .env
 
+# Actual
+actual/data/
+
 # Backup
 backup/config/
 backup/data/

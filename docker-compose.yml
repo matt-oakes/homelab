@@ -181,6 +181,18 @@ services:
       - 9001:9001
 
   #
+  # Actual accounting
+  #
+  actual:
+    image: docker.io/actualbudget/actual-server:24.7.0
+    <<: *service-defaults
+    environment:
+      TZ: Europe/London
+      ACTUAL_HOSTNAME: 0.0.0.0
+    volumes:
+      - ./actual/data:/data
+
+  #
   # Prometheus for data collection
   #
   prometheus:

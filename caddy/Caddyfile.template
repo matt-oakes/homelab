@@ -16,6 +16,13 @@
 		}
 	}
 	
+	@actual host actual.%DOMAIN%
+	handle @actual {
+		reverse_proxy {
+			to actual:5006
+		}
+	}
+
 	@backup host backup.%DOMAIN%
 	handle @backup {
 		reverse_proxy {
