@@ -123,7 +123,7 @@ services:
   #
   frigate:
     <<: *service-defaults
-    image: ghcr.io/blakeblackshear/frigate:0.14.0-beta4-standard-arm64
+    image: ghcr.io/blakeblackshear/frigate:0.14.1-standard-arm64
     container_name: frigate
     privileged: true
     shm_size: "64mb" # Comfigure shared memory based on the number of cameras. 64MB is good enough for 2-3 cameras detecting at 720
