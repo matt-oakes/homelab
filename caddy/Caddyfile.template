@@ -44,11 +44,18 @@
 		}
 	}
 
+	@esphome host esphome.%DOMAIN%
+	handle @esphome {
+		reverse_proxy {
+			to host.docker.internal:6052
+		}
+	}
+
 	@homeassistant host homeassistant.%DOMAIN%
 	handle @homeassistant {
-			reverse_proxy {
-					to host.docker.internal:8123
-			}
+		reverse_proxy {
+			to host.docker.internal:8123
+		}
 	}
 
 	@jellyfin host jellyfin.%DOMAIN%

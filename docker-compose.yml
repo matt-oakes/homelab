@@ -101,6 +101,21 @@ services:
       - /run/dbus:/run/dbus:ro
 
   #
+  # ESPHome
+  #
+  esphome:
+    <<: *service-defaults
+    image: ghcr.io/esphome/esphome:2024.9.2
+    container_name: esphome
+    network_mode: host
+    privileged: true
+    environment:
+      TZ: Europe/London
+    volumes:
+      - ./esphome:/config
+      - /etc/localtime:/etc/localtime:ro
+
+  #
   # zigbee2mqtt
   #
   zigbee2mqtt:

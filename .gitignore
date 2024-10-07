@@ -20,6 +20,9 @@ homeassistant/
 # VSCode
 code/config/
 
+# ESPHome
+esphome/
+
 # Frigate
 frigate/
 
