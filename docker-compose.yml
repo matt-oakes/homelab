@@ -29,7 +29,7 @@ services:
   #
   torrent:
     <<: *service-defaults
-    image: hotio/qbittorrent:release-1236a2e
+    image: hotio/qbittorrent:release-5.0.0
     container_name: torrent
     environment:
       PUID: 1000
