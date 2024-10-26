@@ -232,7 +232,7 @@ services:
   #
   grafana:
     <<: *service-defaults
-    image: grafana/grafana:11.2.2
+    image: grafana/grafana:11.3.0
     container_name: grafana
     user: 1000:1000
     depends_on:
