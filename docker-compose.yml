@@ -212,7 +212,7 @@ services:
   #
   prometheus:
     <<: *service-defaults
-    image: prom/prometheus:v3.0.0
+    image: prom/prometheus:v3.0.1
     container_name: prometheus
     user: 1000:1000
     volumes:
