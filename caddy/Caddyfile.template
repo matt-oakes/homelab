@@ -4,11 +4,6 @@
 		resolvers 1.1.1.1
 	}
 
-	@caddymetrics host caddymetrics.%DOMAIN%
-	handle @caddymetrics {
-		metrics
-	}
-
 	@code host code.%DOMAIN%
 	handle @code {
 		reverse_proxy {
@@ -16,13 +11,6 @@
 		}
 	}
 	
-	@actual host actual.%DOMAIN%
-	handle @actual {
-		reverse_proxy {
-			to actual:5006
-		}
-	}
-
 	@backup host backup.%DOMAIN%
 	handle @backup {
 		reverse_proxy {
@@ -34,13 +22,6 @@
 	handle @frigate {
 		reverse_proxy {
 			to frigate:5000
-		}
-	}
-
-	@grafana host dashboard.%DOMAIN%
-	handle @grafana {
-		reverse_proxy {
-			to grafana:3000
 		}
 	}
 
@@ -69,13 +50,6 @@
 	handle @nas {
 		reverse_proxy {
 			to %NAS_IP%:5000
-		}
-	}
-
-	@prometheus host prometheus.%DOMAIN%
-	handle @prometheus {
-		reverse_proxy {
-			to prometheus:9090
 		}
 	}
 
@@ -121,8 +95,4 @@
 			roll_keep_for 24h
 		}
 	}
-}
-
-servers {
-	metrics
 }
