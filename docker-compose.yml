@@ -105,7 +105,7 @@ services:
   #
   esphome:
     <<: *service-defaults
-    image: ghcr.io/esphome/esphome:2024.12.2
+    image: ghcr.io/esphome/esphome:2024.12.4
     container_name: esphome
     network_mode: host
     privileged: true
