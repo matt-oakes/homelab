@@ -151,11 +151,9 @@ services:
       - ./frigate/cache:/tmp/cache
     ports:
       - "172.17.0.1:5000:5000"
-      - 8554:8554 # RTSP feeds
-      - 8555:8555/tcp # WebRTC over tcp
-      - 8555:8555/udp # WebRTC over udp
-    environment:
-      FRIGATE_RTSP_PASSWORD: '${FRIGATE_RTSP_PASSWORD:?err}'
+      - "172.17.0.1:8554:8554" # RTSP feeds
+      - "172.17.0.1:8555:8555/tcp" # WebRTC over tcp
+      - "172.17.0.1:8555:8555/udp" # WebRTC over udp
 
   #
   # Jellyfin media server
