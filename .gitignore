@@ -38,6 +38,9 @@ jellyfin/config/
 # Media
 media/
 
+# Music Assistant
+musicassistant/
+
 # torrent
 torrent/
 

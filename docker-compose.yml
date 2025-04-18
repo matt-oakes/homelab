@@ -100,6 +100,23 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus:ro
 
+  musicassistant:
+    <<: *service-defaults
+    image: ghcr.io/music-assistant/server:2.5.1
+    container_name: musicassistant
+    network_mode: host
+    cap_add:
+      - SYS_ADMIN
+      - DAC_READ_SEARCH
+    security_opt:
+      - apparmor:unconfined
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/London
+    volumes:
+      - ./musicassistant/data:/data/
+
   #
   # ESPHome
   #

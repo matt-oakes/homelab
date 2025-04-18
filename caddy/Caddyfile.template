@@ -38,6 +38,13 @@
 			to host.docker.internal:8123
 		}
 	}
+	
+	@musicassistant host music.%DOMAIN%
+	handle @musicassistant {
+		reverse_proxy {
+			to host.docker.internal:8095
+		}
+	}
 
 	@jellyfin host jellyfin.%DOMAIN%
 	handle @jellyfin {
